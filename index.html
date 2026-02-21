@@ -1,0 +1,1293 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Brunken Consulting, LLC — Proposal</title>
+    <style>
+        /* ===========================================
+           CSS CUSTOM PROPERTIES (THEME)
+           Brunken Consulting — warm, premium, strategic
+           =========================================== */
+        :root {
+            --bg: #FBF7F2;
+            --text-primary: #1F2328;
+            --text-secondary: #5A646E;
+            --accent-1: #B07A2A;
+            --accent-2: #2F5D62;
+            --card-bg: #FFFFFF;
+            --border: #E6DED6;
+
+            --font-stack: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+
+            --slide-max-w: 1120px;
+            --slide-pad-x: 48px;
+            --slide-pad-y: 36px;
+
+            --fs-cover-company: 2.25rem;
+            --fs-cover-subtitle: 1.125rem;
+            --fs-cover-author: 0.8125rem;
+            --fs-company: 1.5rem;
+            --fs-section: 1.125rem;
+            --fs-card-title: 0.9375rem;
+            --fs-card-price: 1.25rem;
+            --fs-body: 0.8125rem;
+            --fs-overview: 0.8125rem;
+            --fs-small: 0.75rem;
+            --fs-footer: 0.6875rem;
+
+            --lh: 1.45;
+            --card-radius: 8px;
+            --card-pad: 20px;
+            --section-gap: 26px;
+            --card-shadow: 0 1px 4px rgba(0,0,0,0.04);
+        }
+
+        /* ===========================================
+           RESET & BASE
+           =========================================== */
+        *, *::before, *::after {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            font-size: 16px;
+            -webkit-text-size-adjust: 100%;
+        }
+
+        body {
+            font-family: var(--font-stack);
+            background: var(--bg);
+            color: var(--text-primary);
+            line-height: var(--lh);
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* ===========================================
+           DECK CONTAINER
+           =========================================== */
+        .deck {
+            max-width: var(--slide-max-w);
+            margin: 0 auto;
+        }
+
+        /* ===========================================
+           SLIDE
+           Each slide = one printed page
+           =========================================== */
+        .slide {
+            width: 100%;
+            padding: var(--slide-pad-y) var(--slide-pad-x);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+            background: var(--bg);
+        }
+
+        .slide + .slide {
+            border-top: 1px solid var(--border);
+        }
+
+        .slide-body {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: var(--section-gap);
+        }
+
+        /* ===========================================
+           COVER SLIDE (Slide 0)
+           =========================================== */
+        .cover-slide {
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+        }
+
+        .cover-content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .cover-accent {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            width: 240px;
+        }
+
+        .cover-accent-line {
+            flex: 1;
+            height: 1px;
+            background: var(--accent-1);
+        }
+
+        .cover-accent svg {
+            flex-shrink: 0;
+        }
+
+        .cover-company {
+            font-size: var(--fs-cover-company);
+            font-weight: 700;
+            color: var(--text-primary);
+            letter-spacing: -0.02em;
+            line-height: 1.15;
+        }
+
+        .cover-subtitle {
+            font-size: var(--fs-cover-subtitle);
+            font-weight: 400;
+            color: var(--text-secondary);
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+        }
+
+        .cover-rule {
+            width: 64px;
+            height: 1px;
+            background: var(--accent-1);
+        }
+
+        .cover-author {
+            font-size: var(--fs-cover-author);
+            font-weight: 400;
+            color: var(--text-secondary);
+            margin-top: 40px;
+        }
+
+        .cover-author strong {
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+
+        /* ===========================================
+           HEADER (Slide 1)
+           =========================================== */
+        .slide-header {
+            margin-bottom: 20px;
+            padding-bottom: 16px;
+            border-bottom: 1.5px solid var(--accent-1);
+        }
+
+        .header-company {
+            font-size: var(--fs-company);
+            font-weight: 700;
+            color: var(--text-primary);
+            letter-spacing: -0.02em;
+            line-height: 1.2;
+        }
+
+        .header-subtitle {
+            font-size: 0.875rem;
+            font-weight: 500;
+            color: var(--text-secondary);
+            margin-top: 2px;
+        }
+
+        .header-author {
+            font-size: var(--fs-small);
+            font-weight: 400;
+            color: var(--text-secondary);
+            margin-top: 1px;
+        }
+
+        /* ===========================================
+           SLIDE FOOTER
+           =========================================== */
+        .slide-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-top: 12px;
+            margin-top: auto;
+            border-top: 1px solid var(--accent-1);
+            font-size: var(--fs-footer);
+            color: var(--text-secondary);
+            font-weight: 400;
+        }
+
+        /* ===========================================
+           SECTION HEADINGS
+           =========================================== */
+        .section-heading {
+            font-size: var(--fs-section);
+            font-weight: 700;
+            color: var(--accent-1);
+            letter-spacing: 0.04em;
+            text-transform: uppercase;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .section-heading svg {
+            flex-shrink: 0;
+        }
+
+        /* Gold hairline divider between sections */
+        .gold-divider {
+            height: 1px;
+            background: var(--accent-1);
+            opacity: 0.3;
+            margin-top: 4px;
+            margin-bottom: 4px;
+        }
+
+        /* ===========================================
+           EXECUTIVE OVERVIEW
+           =========================================== */
+        .overview-list {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 7px;
+        }
+
+        .overview-list li {
+            font-size: var(--fs-overview);
+            font-weight: 450;
+            color: var(--text-primary);
+            padding-left: 18px;
+            position: relative;
+            line-height: 1.55;
+        }
+
+        .overview-list li::before {
+            content: "";
+            position: absolute;
+            left: 0;
+            top: 8px;
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: var(--accent-1);
+            opacity: 0.7;
+        }
+
+        /* ===========================================
+           COMPARISON GRID
+           Side-by-side card layout
+           =========================================== */
+        .comparison-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+        }
+
+        .card {
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: var(--card-radius);
+            padding: var(--card-pad);
+            display: flex;
+            flex-direction: column;
+            box-shadow: var(--card-shadow);
+        }
+
+        .card--premium {
+            border-top: 3px solid var(--accent-1);
+        }
+
+        .card-head {
+            margin-bottom: 14px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .card-title {
+            font-size: var(--fs-card-title);
+            font-weight: 700;
+            color: var(--text-primary);
+            line-height: 1.3;
+        }
+
+        .card-meta {
+            display: flex;
+            align-items: baseline;
+            gap: 12px;
+            margin-top: 4px;
+        }
+
+        .card-price {
+            font-size: var(--fs-card-price);
+            font-weight: 700;
+            color: var(--accent-1);
+            letter-spacing: -0.01em;
+        }
+
+        .card-timeline {
+            font-size: var(--fs-small);
+            font-weight: 500;
+            color: var(--text-secondary);
+        }
+
+        .card-plus-badge {
+            display: inline-block;
+            font-size: 0.6875rem;
+            font-weight: 600;
+            color: var(--card-bg);
+            background: var(--accent-1);
+            padding: 1px 8px;
+            border-radius: 3px;
+            margin-left: 6px;
+            letter-spacing: 0.03em;
+            text-transform: uppercase;
+            vertical-align: middle;
+        }
+
+        .card-includes-note {
+            font-size: var(--fs-small);
+            color: var(--text-secondary);
+            font-weight: 500;
+            font-style: italic;
+            margin-bottom: 10px;
+        }
+
+        /* Category rows within identity cards */
+        .category-row {
+            display: flex;
+            gap: 10px;
+            padding: 8px 0;
+            border-bottom: 1px solid var(--border);
+            align-items: flex-start;
+        }
+
+        .category-row:last-child {
+            border-bottom: none;
+            padding-bottom: 0;
+        }
+
+        .category-row:first-child {
+            padding-top: 0;
+        }
+
+        .category-icon {
+            flex-shrink: 0;
+            width: 16px;
+            height: 16px;
+            margin-top: 1px;
+            color: var(--accent-1);
+        }
+
+        .category-content {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .category-label {
+            font-size: var(--fs-small);
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.04em;
+            color: var(--text-primary);
+            line-height: 1.3;
+        }
+
+        .category-desc {
+            font-size: var(--fs-body);
+            color: var(--text-primary);
+            font-weight: 400;
+            line-height: 1.45;
+            margin-top: 2px;
+        }
+
+        .category-desc .material-item {
+            display: block;
+            padding-left: 12px;
+            position: relative;
+        }
+
+        .category-desc .material-item::before {
+            content: "";
+            position: absolute;
+            left: 0;
+            top: 7px;
+            width: 4px;
+            height: 4px;
+            border-radius: 50%;
+            background: var(--text-secondary);
+            opacity: 0.5;
+        }
+
+        /* ===========================================
+           WEBSITE COMPARISON (SLIDE 2)
+           Asymmetric layout
+           =========================================== */
+        .website-grid {
+            display: grid;
+            grid-template-columns: 1fr 1.15fr;
+            gap: 16px;
+            align-items: start;
+        }
+
+        .website-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: var(--card-radius);
+            padding: 18px 20px;
+            box-shadow: var(--card-shadow);
+        }
+
+        .website-card--growth {
+            border-top: 3px solid var(--accent-1);
+        }
+
+        .included-callout {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            font-size: var(--fs-small);
+            font-weight: 600;
+            color: var(--accent-2);
+            background: rgba(47,93,98,0.07);
+            padding: 4px 10px;
+            border-radius: 4px;
+            margin-top: 8px;
+        }
+
+        .included-callout svg {
+            flex-shrink: 0;
+        }
+
+        .upgrade-callout-inline {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            font-size: var(--fs-small);
+            font-weight: 700;
+            color: var(--accent-1);
+            background: rgba(176,122,42,0.08);
+            padding: 4px 10px;
+            border-radius: 4px;
+            margin-top: 8px;
+        }
+
+        .upgrade-callout-inline svg {
+            flex-shrink: 0;
+        }
+
+        .website-card-title {
+            font-size: var(--fs-card-title);
+            font-weight: 700;
+            color: var(--text-primary);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .website-card-detail {
+            font-size: var(--fs-body);
+            color: var(--text-secondary);
+            font-weight: 450;
+            margin-top: 4px;
+            line-height: 1.5;
+        }
+
+        .badge-recommended {
+            display: inline-block;
+            font-size: 0.625rem;
+            font-weight: 600;
+            color: var(--card-bg);
+            background: var(--accent-1);
+            padding: 1px 7px;
+            border-radius: 3px;
+            letter-spacing: 0.03em;
+            text-transform: uppercase;
+        }
+
+        /* Upgrade bridge */
+        .upgrade-bridge {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            padding: 10px 0;
+            color: var(--accent-1);
+            font-size: var(--fs-body);
+            font-weight: 700;
+        }
+
+        .upgrade-bridge svg {
+            flex-shrink: 0;
+        }
+
+        .growth-advantages-label {
+            font-size: var(--fs-small);
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.04em;
+            color: var(--accent-1);
+            margin-bottom: 8px;
+        }
+
+        /* Benefit tiles */
+        .benefit-tiles {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 14px;
+        }
+
+        .benefit-tile {
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: var(--card-radius);
+            padding: 14px 16px;
+            box-shadow: var(--card-shadow);
+        }
+
+        .benefit-tile-header {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 4px;
+        }
+
+        .benefit-tile-header svg {
+            flex-shrink: 0;
+            color: var(--accent-2);
+        }
+
+        .benefit-tile-label {
+            font-size: var(--fs-body);
+            font-weight: 700;
+            color: var(--text-primary);
+        }
+
+        .benefit-tile-desc {
+            font-size: var(--fs-small);
+            color: var(--text-secondary);
+            font-weight: 400;
+            line-height: 1.45;
+        }
+
+        /* Shared features — single column */
+        .shared-features {
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: var(--card-radius);
+            padding: 14px 18px;
+            box-shadow: var(--card-shadow);
+        }
+
+        .shared-features-title {
+            font-size: var(--fs-small);
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.04em;
+            color: var(--text-secondary);
+            margin-bottom: 6px;
+        }
+
+        .check-list {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        .check-list li {
+            font-size: var(--fs-body);
+            color: var(--text-primary);
+            font-weight: 400;
+            line-height: 1.5;
+            padding-left: 20px;
+            position: relative;
+        }
+
+        .check-list li::before {
+            content: "";
+            position: absolute;
+            left: 0;
+            top: 4px;
+            width: 12px;
+            height: 12px;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='%232F5D62'%3E%3Cpath d='M6.5 12.5l-4-4 1.4-1.4 2.6 2.6 5.6-5.6 1.4 1.4z'/%3E%3C/svg%3E");
+            background-size: contain;
+            background-repeat: no-repeat;
+        }
+
+        /* ===========================================
+           PLATFORM RECOMMENDATION — consolidated
+           =========================================== */
+        .platform-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: var(--card-radius);
+            padding: 16px 20px;
+            box-shadow: var(--card-shadow);
+        }
+
+        .platform-card h4 {
+            font-size: var(--fs-card-title);
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .platform-list {
+            list-style: none;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4px 20px;
+        }
+
+        .platform-list li {
+            font-size: var(--fs-body);
+            color: var(--text-primary);
+            font-weight: 400;
+            line-height: 1.45;
+            padding-left: 16px;
+            position: relative;
+        }
+
+        .platform-list li::before {
+            content: "";
+            position: absolute;
+            left: 0;
+            top: 7px;
+            width: 4px;
+            height: 4px;
+            border-radius: 50%;
+            background: var(--accent-1);
+            opacity: 0.6;
+        }
+
+        .platform-footnote {
+            font-size: var(--fs-small);
+            color: var(--text-secondary);
+            font-weight: 400;
+            line-height: 1.5;
+            margin-top: 10px;
+            padding-top: 10px;
+            border-top: 1px solid var(--border);
+        }
+
+        /* ===========================================
+           NEXT STEPS
+           =========================================== */
+        .next-steps {
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-left: 5px solid var(--accent-2);
+            border-radius: var(--card-radius);
+            padding: 18px 24px;
+            box-shadow: var(--card-shadow);
+        }
+
+        .next-steps-title {
+            font-size: var(--fs-section);
+            font-weight: 700;
+            color: var(--accent-2);
+            text-transform: uppercase;
+            letter-spacing: 0.04em;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .steps-list {
+            list-style: none;
+            counter-reset: steps;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .steps-list li {
+            counter-increment: steps;
+            font-size: var(--fs-body);
+            font-weight: 450;
+            color: var(--text-primary);
+            padding-left: 32px;
+            position: relative;
+            line-height: 1.55;
+        }
+
+        .steps-list li::before {
+            content: counter(steps);
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 22px;
+            height: 22px;
+            background: var(--accent-2);
+            color: #fff;
+            font-size: 0.6875rem;
+            font-weight: 700;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            line-height: 1;
+        }
+
+        .email-cta {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            background: var(--accent-2);
+            color: #fff;
+            font-weight: 600;
+            font-size: var(--fs-body);
+            text-decoration: none;
+            padding: 6px 16px;
+            border-radius: 5px;
+            min-height: 44px;
+            transition: background 0.15s ease;
+        }
+
+        .email-cta:hover {
+            background: #24494D;
+        }
+
+        /* ===========================================
+           ACCESSIBILITY — Reduced Motion
+           =========================================== */
+        @media (prefers-reduced-motion: reduce) {
+            * {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+            }
+        }
+
+        /* ===========================================
+           PRINT STYLES
+           3 slides = 3 landscape pages
+           =========================================== */
+        @media print {
+            @page {
+                size: 11in 8.5in;
+                margin: 0.35in 0.45in;
+            }
+
+            html {
+                font-size: 14px;
+            }
+
+            body {
+                background: #fff;
+            }
+
+            .deck {
+                max-width: none;
+            }
+
+            .slide {
+                min-height: auto;
+                height: auto;
+                padding: 0;
+                page-break-after: always;
+                page-break-inside: avoid;
+                background: #fff;
+                border: none;
+            }
+
+            .slide + .slide {
+                border-top: none;
+            }
+
+            .slide:last-child {
+                page-break-after: avoid;
+            }
+
+            :root {
+                --fs-cover-company: 2rem;
+                --fs-cover-subtitle: 1rem;
+                --fs-cover-author: 0.72rem;
+                --fs-company: 1.2rem;
+                --fs-section: 0.82rem;
+                --fs-card-title: 0.78rem;
+                --fs-card-price: 0.95rem;
+                --fs-body: 0.68rem;
+                --fs-overview: 0.7rem;
+                --fs-small: 0.62rem;
+                --fs-footer: 0.58rem;
+                --card-pad: 10px;
+                --slide-pad-y: 0;
+                --slide-pad-x: 0;
+                --section-gap: 10px;
+                --card-shadow: none;
+            }
+
+            .slide-body {
+                gap: 10px;
+            }
+
+            .slide-header {
+                margin-bottom: 10px;
+                padding-bottom: 8px;
+            }
+
+            .section-heading {
+                margin-bottom: 5px;
+            }
+
+            .comparison-grid,
+            .website-grid,
+            .benefit-tiles {
+                gap: 8px;
+            }
+
+            .card, .website-card, .platform-card, .shared-features {
+                padding: 8px 10px;
+            }
+
+            .card-head {
+                margin-bottom: 6px;
+                padding-bottom: 5px;
+            }
+
+            .category-row {
+                padding: 4px 0;
+            }
+
+            .overview-list {
+                gap: 2px;
+            }
+
+            .next-steps {
+                padding: 8px 12px;
+            }
+
+            .steps-list {
+                gap: 3px;
+            }
+
+            .check-list {
+                gap: 2px;
+            }
+
+            .slide-footer {
+                padding-top: 6px;
+            }
+
+            .benefit-tile {
+                padding: 8px 10px;
+            }
+
+            .platform-list {
+                gap: 2px 14px;
+            }
+
+            .email-cta {
+                min-height: auto;
+                padding: 3px 10px;
+            }
+
+            .cover-slide {
+                padding-top: 1.5in;
+            }
+        }
+
+        /* ===========================================
+           RESPONSIVE — Tablet (under 900px)
+           =========================================== */
+        @media (max-width: 900px) {
+            :root {
+                --slide-pad-x: 24px;
+                --slide-pad-y: 28px;
+                --fs-cover-company: 1.75rem;
+                --fs-cover-subtitle: 1rem;
+                --fs-company: 1.35rem;
+                --fs-section: 1rem;
+                --fs-card-title: 1rem;
+                --fs-card-price: 1.2rem;
+                --fs-body: 1rem;
+                --fs-overview: 1rem;
+                --fs-small: 0.9rem;
+                --fs-footer: 0.8rem;
+            }
+
+            .slide {
+                min-height: auto;
+                padding: var(--slide-pad-y) var(--slide-pad-x);
+            }
+
+            .comparison-grid,
+            .website-grid {
+                grid-template-columns: 1fr;
+                gap: 14px;
+            }
+
+            .benefit-tiles {
+                grid-template-columns: 1fr;
+                gap: 10px;
+            }
+
+            .platform-list {
+                grid-template-columns: 1fr;
+            }
+
+            .slide-footer {
+                flex-direction: column;
+                gap: 2px;
+                text-align: center;
+            }
+        }
+
+        /* ===========================================
+           RESPONSIVE — Small Phone (under 480px)
+           =========================================== */
+        @media (max-width: 480px) {
+            :root {
+                --slide-pad-x: 16px;
+                --slide-pad-y: 20px;
+                --card-pad: 14px;
+                --fs-cover-company: 1.5rem;
+            }
+
+            .card-meta {
+                flex-direction: column;
+                gap: 2px;
+            }
+
+            .steps-list li {
+                padding-left: 30px;
+            }
+
+            .cover-author {
+                margin-top: 24px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<div class="deck">
+
+    <!-- ============================================================
+         SLIDE 0: Cover
+         ============================================================ -->
+    <section class="slide cover-slide" id="slide-0">
+
+        <div class="cover-content">
+
+            <!-- Decorative accent -->
+            <div class="cover-accent">
+                <span class="cover-accent-line"></span>
+                <svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="#B07A2A" stroke-width="1" stroke-linecap="round" stroke-linejoin="round">
+                    <polygon points="10,1 12.5,7.5 19,7.5 13.75,11.5 15.5,18 10,14 4.5,18 6.25,11.5 1,7.5 7.5,7.5"/>
+                </svg>
+                <span class="cover-accent-line"></span>
+            </div>
+
+            <div class="cover-company">Brunken Consulting, LLC</div>
+
+            <div class="cover-rule"></div>
+
+            <div class="cover-subtitle">Proposal</div>
+
+            <div class="cover-author">Prepared by <strong>Camila Ruiz</strong></div>
+
+        </div>
+
+        <footer class="slide-footer">
+            <span>By Camila Ruiz</span>
+            <span>Brunken Consulting Proposal</span>
+        </footer>
+
+    </section>
+
+    <!-- ============================================================
+         SLIDE 1: Executive Overview + Visual Identity Comparison
+         ============================================================ -->
+    <section class="slide" id="slide-1">
+
+        <header class="slide-header">
+            <div class="header-company">Brunken Consulting, LLC</div>
+            <div class="header-subtitle">Proposal</div>
+            <div class="header-author">By Camila Ruiz</div>
+        </header>
+
+        <div class="slide-body">
+
+            <!-- Executive Overview -->
+            <div>
+                <h2 class="section-heading">
+                    <svg width="18" height="18" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"><circle cx="8" cy="8" r="6.5"/><path d="M8 4.5v3.5l2.5 1.5"/></svg>
+                    Executive Overview
+                </h2>
+                <ul class="overview-list">
+                    <li>Build clarity and credibility around your brand, positioning, and communications</li>
+                    <li>Strengthen trust and visibility with a consistent, professional identity</li>
+                    <li>Support senior-level positioning that reflects Fortune 50 rigor without large agency overhead</li>
+                    <li>Create alignment across all communications touchpoints, from digital to in-person</li>
+                    <li>Support sustainable growth with an intentional brand foundation and digital presence</li>
+                </ul>
+                <div class="gold-divider" style="margin-top:14px;"></div>
+            </div>
+
+            <!-- Visual Identity Package Comparison -->
+            <div>
+                <h2 class="section-heading">
+                    <svg width="18" height="18" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="12" height="12" rx="2"/><path d="M2 10l3.5-3.5L8 9l3-3 3 3"/></svg>
+                    Visual Identity Packages
+                </h2>
+                <div class="comparison-grid">
+
+                    <!-- Option 1 -->
+                    <div class="card">
+                        <div class="card-head">
+                            <div class="card-title">Visual Identity &mdash; Option 1</div>
+                            <div class="card-meta">
+                                <span class="card-price">$3,150</span>
+                                <span class="card-timeline">~5 weeks</span>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <!-- Naming -->
+                            <div class="category-row">
+                                <svg class="category-icon" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"><path d="M2 13h12M4 3l4 10M12 3L8 13"/></svg>
+                                <div class="category-content">
+                                    <div class="category-label">Naming</div>
+                                    <div class="category-desc">1&ndash;2 name options</div>
+                                </div>
+                            </div>
+                            <!-- Logo & Color -->
+                            <div class="category-row">
+                                <svg class="category-icon" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"><circle cx="6" cy="8" r="4"/><circle cx="10" cy="8" r="4"/></svg>
+                                <div class="category-content">
+                                    <div class="category-label">Logo &amp; Color</div>
+                                    <div class="category-desc">2 unique logo concepts, 2 color palettes with application examples. 2 rounds of revisions on 1 selected concept.</div>
+                                </div>
+                            </div>
+                            <!-- Branded Materials -->
+                            <div class="category-row">
+                                <svg class="category-icon" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="12" height="10" rx="1.5"/><path d="M5 7h6M5 9.5h4"/></svg>
+                                <div class="category-content">
+                                    <div class="category-label">Branded Materials</div>
+                                    <div class="category-desc">
+                                        <span class="material-item">LinkedIn banner</span>
+                                        <span class="material-item">2&ndash;3 Instagram Canva templates</span>
+                                        <span class="material-item">PowerPoint template (2&ndash;3 slides)</span>
+                                        <span class="material-item">Business card</span>
+                                        <span class="material-item">Homepage mockup</span>
+                                        1&ndash;2 rounds of revisions
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Brand Board -->
+                            <div class="category-row">
+                                <svg class="category-icon" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="12" height="12" rx="1.5"/><path d="M2 6h12M6 6v8"/></svg>
+                                <div class="category-content">
+                                    <div class="category-label">Brand Board</div>
+                                    <div class="category-desc">1-page reference: logo, color, typography, photo style</div>
+                                </div>
+                            </div>
+                            <!-- Delivery -->
+                            <div class="category-row">
+                                <svg class="category-icon" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"><path d="M4 8l3 3 5-6"/><rect x="1.5" y="1.5" width="13" height="13" rx="2"/></svg>
+                                <div class="category-content">
+                                    <div class="category-label">Delivery</div>
+                                    <div class="category-desc">Final logo (print + web), brand board, all materials, and a 2&ndash;3 page website</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Option 2 -->
+                    <div class="card card--premium">
+                        <div class="card-head">
+                            <div class="card-title">Visual Identity &mdash; Option 2 <span class="card-plus-badge">Full Suite</span></div>
+                            <div class="card-meta">
+                                <span class="card-price">$7,050</span>
+                                <span class="card-timeline">~8 weeks</span>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <div class="card-includes-note">Includes everything in Option 1, plus:</div>
+                            <!-- Discovery -->
+                            <div class="category-row">
+                                <svg class="category-icon" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"><circle cx="7" cy="7" r="4.5"/><path d="M10.5 10.5L14 14"/></svg>
+                                <div class="category-content">
+                                    <div class="category-label">Discovery</div>
+                                    <div class="category-desc">Competitor visual audit</div>
+                                </div>
+                            </div>
+                            <!-- Naming -->
+                            <div class="category-row">
+                                <svg class="category-icon" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"><path d="M2 13h12M4 3l4 10M12 3L8 13"/></svg>
+                                <div class="category-content">
+                                    <div class="category-label">Naming</div>
+                                    <div class="category-desc">2&ndash;3 name options (expanded from Option 1)</div>
+                                </div>
+                            </div>
+                            <!-- Additional Branded Materials -->
+                            <div class="category-row">
+                                <svg class="category-icon" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="12" height="10" rx="1.5"/><path d="M5 7h6M5 9.5h4"/></svg>
+                                <div class="category-content">
+                                    <div class="category-label">Additional Materials</div>
+                                    <div class="category-desc">
+                                        <span class="material-item">Full pitch deck or 5&ndash;10 branded slides</span>
+                                        <span class="material-item">Newsletter or email template</span>
+                                        <span class="material-item">Email signature</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Brand Identity Guidelines -->
+                            <div class="category-row">
+                                <svg class="category-icon" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"><path d="M3 2h7l3 3v9H3V2z"/><path d="M10 2v3h3"/><path d="M5.5 8h5M5.5 10.5h3.5"/></svg>
+                                <div class="category-content">
+                                    <div class="category-label">Brand Guidelines</div>
+                                    <div class="category-desc">~25-page reference: mission, values, brand voice, logo, color, typography, photo style, and usage guidelines</div>
+                                </div>
+                            </div>
+                            <!-- Delivery -->
+                            <div class="category-row">
+                                <svg class="category-icon" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"><path d="M4 8l3 3 5-6"/><rect x="1.5" y="1.5" width="13" height="13" rx="2"/></svg>
+                                <div class="category-content">
+                                    <div class="category-label">Delivery</div>
+                                    <div class="category-desc">Everything in Option 1 plus guidelines document and a 2&ndash;3 page website</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+
+        <footer class="slide-footer">
+            <span>By Camila Ruiz</span>
+            <span>Brunken Consulting Proposal</span>
+        </footer>
+
+    </section>
+
+    <!-- ============================================================
+         SLIDE 2: Website Packages + Platform + Next Steps
+         ============================================================ -->
+    <section class="slide" id="slide-2">
+
+        <div class="slide-body">
+
+            <!-- Website Package Comparison -->
+            <div>
+                <h2 class="section-heading">
+                    <svg width="18" height="18" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"><rect x="1.5" y="3" width="13" height="10" rx="1.5"/><path d="M1.5 6h13"/></svg>
+                    Website Packages
+                </h2>
+
+                <div class="website-grid">
+                    <div class="website-card">
+                        <div class="website-card-title">Basic Website</div>
+                        <div class="website-card-detail">1&ndash;2 pages &middot; Up to 2 services listed &middot; Clear call to action and credibility positioning</div>
+                        <div class="included-callout">
+                            <svg width="12" height="12" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 8l3 3 5-6"/></svg>
+                            Included in Visual Identity Option 1 &amp; 2
+                        </div>
+                    </div>
+                    <div class="website-card website-card--growth">
+                        <div class="website-card-title">Growth Website <span class="badge-recommended">Best Value</span></div>
+                        <div class="website-card-detail">Up to 5&ndash;6 pages &middot; Up to 5 services listed &middot; Dedicated space for service details, case positioning, and thought leadership</div>
+                        <div class="upgrade-callout-inline">
+                            <svg width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M8 12V4M5 7l3-3 3 3"/></svg>
+                            +$800 upgrade from Basic
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Shared features — moved up to establish baseline -->
+                <div class="shared-features" style="margin-top:12px;">
+                    <div class="shared-features-title">Included in Both Website Packages</div>
+                    <ul class="check-list">
+                        <li>Basic SEO setup, meta tags, header keywords, and market research-based copy</li>
+                        <li>Mobile-optimized, fast-loading design</li>
+                        <li>Contact form or lead capture integration</li>
+                        <li>Optimized for AI visibility and agentic structure, designed so AI systems can summarize and recommend the business</li>
+                    </ul>
+                </div>
+
+                <!-- Growth package advantages -->
+                <div class="growth-advantages-label">Advantages of the Growth Package</div>
+                <div class="benefit-tiles">
+                    <div class="benefit-tile">
+                        <div class="benefit-tile-header">
+                            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"><circle cx="7" cy="7" r="4.5"/><path d="M10.5 10.5L14 14"/></svg>
+                            <span class="benefit-tile-label">More findable</span>
+                        </div>
+                        <div class="benefit-tile-desc">Each page is a new entry point for search engines and AI systems</div>
+                    </div>
+                    <div class="benefit-tile">
+                        <div class="benefit-tile-header">
+                            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"><path d="M8 1.5l2 4 4.5.5-3.25 3 .75 4.5L8 11l-4 2.5.75-4.5L1.5 6l4.5-.5z"/></svg>
+                            <span class="benefit-tile-label">More credible</span>
+                        </div>
+                        <div class="benefit-tile-desc">Dedicated space for services, case positioning, and thought leadership</div>
+                    </div>
+                    <div class="benefit-tile">
+                        <div class="benefit-tile-header">
+                            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12V8M8 12V4M12 12V6"/></svg>
+                            <span class="benefit-tile-label">More flexible</span>
+                        </div>
+                        <div class="benefit-tile-desc">Room to grow as the business evolves</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="gold-divider"></div>
+
+            <!-- Platform Recommendation — consolidated -->
+            <div>
+                <h2 class="section-heading">
+                    <svg width="18" height="18" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"><path d="M3 13V3h10v10H3z"/><path d="M6 6h4M6 8.5h4M6 11h2.5"/></svg>
+                    Platform Recommendation
+                </h2>
+                <div class="platform-card">
+                    <h4>
+                        <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="12" height="12" rx="2"/><path d="M6 6l4 4M10 6l-4 4"/></svg>
+                        Wix Studio
+                    </h4>
+                    <ul class="platform-list">
+                        <li>All-in-one hosting &mdash; no separate server management</li>
+                        <li>Built-in security and SSL certificate</li>
+                        <li>Easy content editing after launch, no developer needed</li>
+                        <li>Integrated scheduling and invoicing via Wix business tools</li>
+                        <li>Accept payments and bookings directly on the site</li>
+                        <li>Ideal fit for small consultancies and service businesses</li>
+                    </ul>
+                    <p class="platform-footnote">
+                        <strong>Domain:</strong> Purchased separately. Typical annual cost ranges from $10&ndash;$45/year depending on the extension. First-year pricing may be discounted or included with some annual hosting plans. The Wix Studio Standard plan is commonly used for small service businesses that accept payments. Refer to Wix for current plan pricing.
+                    </p>
+                </div>
+            </div>
+
+            <!-- Next Steps -->
+            <div class="next-steps">
+                <h2 class="next-steps-title">
+                    <svg width="18" height="18" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8h10M9 4l4 4-4 4"/></svg>
+                    Next Steps
+                </h2>
+                <ol class="steps-list">
+                    <li>Select your preferred package and any add-ons</li>
+                    <li>Schedule a launch strategy session with Camila: <a href="mailto:hello@camilaruiz.com" class="email-cta">hello@camilaruiz.com</a></li>
+                    <li>Begin building your business foundation</li>
+                </ol>
+            </div>
+
+        </div>
+
+        <footer class="slide-footer">
+            <span>By Camila Ruiz</span>
+            <span>Brunken Consulting Proposal</span>
+        </footer>
+
+    </section>
+
+</div>
+
+</body>
+</html>
