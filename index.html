@@ -55,6 +55,8 @@
         html {
             font-size: 16px;
             -webkit-text-size-adjust: 100%;
+            scroll-snap-type: y mandatory;
+            scroll-behavior: smooth;
         }
 
         body {
@@ -76,7 +78,7 @@
 
         /* ===========================================
            SLIDE
-           Each slide = one printed page
+           Each slide = one full-screen section
            =========================================== */
         .slide {
             width: 100%;
@@ -86,10 +88,83 @@
             flex-direction: column;
             position: relative;
             background: var(--bg);
+            scroll-snap-align: start;
+            scroll-snap-stop: always;
         }
 
         .slide + .slide {
             border-top: 1px solid var(--border);
+        }
+
+        /* ===========================================
+           MICRO-ANIMATIONS
+           Subtle fade-in on scroll
+           =========================================== */
+        .fade-in {
+            opacity: 0;
+            transform: translateY(12px);
+            transition: opacity 0.5s ease, transform 0.5s ease;
+        }
+
+        .fade-in.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Stagger children */
+        .fade-in-delay-1 { transition-delay: 0.08s; }
+        .fade-in-delay-2 { transition-delay: 0.16s; }
+        .fade-in-delay-3 { transition-delay: 0.24s; }
+        .fade-in-delay-4 { transition-delay: 0.32s; }
+
+        /* Cover-specific entrance */
+        .cover-fade {
+            opacity: 0;
+            transform: translateY(16px);
+            transition: opacity 0.7s ease, transform 0.7s ease;
+        }
+
+        .cover-fade.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .cover-fade-delay-1 { transition-delay: 0.15s; }
+        .cover-fade-delay-2 { transition-delay: 0.3s; }
+        .cover-fade-delay-3 { transition-delay: 0.45s; }
+        .cover-fade-delay-4 { transition-delay: 0.6s; }
+
+        /* Card hover micro-interaction */
+        .card,
+        .website-card,
+        .benefit-tile,
+        .platform-card,
+        .next-steps {
+            transition: box-shadow 0.2s ease, transform 0.2s ease;
+        }
+
+        .card:hover,
+        .website-card:hover,
+        .benefit-tile:hover,
+        .platform-card:hover,
+        .next-steps:hover {
+            box-shadow: 0 2px 8px rgba(0,0,0,0.07);
+            transform: translateY(-1px);
+        }
+
+        /* Gold rule grow animation */
+        .cover-rule {
+            transform: scaleX(0);
+            transition: transform 0.6s ease 0.25s;
+        }
+
+        .cover-rule.visible {
+            transform: scaleX(1);
+        }
+
+        /* Email CTA subtle pulse on hover */
+        .email-cta:hover {
+            box-shadow: 0 2px 12px rgba(47,93,98,0.25);
         }
 
         .slide-body {
@@ -166,13 +241,24 @@
             color: var(--text-primary);
         }
 
+        /* Cover footer centered */
+        .cover-slide .slide-footer {
+            justify-content: center;
+            gap: 24px;
+        }
+
         /* ===========================================
-           HEADER (Slide 1)
+           HEADER (Slide 1 & 2)
            =========================================== */
         .slide-header {
             margin-bottom: 20px;
             padding-bottom: 16px;
             border-bottom: 1.5px solid var(--accent-1);
+        }
+
+        .slide-header--light {
+            margin-bottom: 16px;
+            padding-bottom: 12px;
         }
 
         .header-company {
@@ -236,7 +322,7 @@
             height: 1px;
             background: var(--accent-1);
             opacity: 0.3;
-            margin-top: 4px;
+            margin-top: 14px;
             margin-bottom: 4px;
         }
 
@@ -328,18 +414,23 @@
             color: var(--text-secondary);
         }
 
-        .card-plus-badge {
+        /* Unified badge style */
+        .card-plus-badge,
+        .badge-recommended {
             display: inline-block;
             font-size: 0.6875rem;
             font-weight: 600;
             color: var(--card-bg);
             background: var(--accent-1);
-            padding: 1px 8px;
+            padding: 2px 8px;
             border-radius: 3px;
-            margin-left: 6px;
             letter-spacing: 0.03em;
             text-transform: uppercase;
             vertical-align: middle;
+        }
+
+        .card-plus-badge {
+            margin-left: 6px;
         }
 
         .card-includes-note {
@@ -364,7 +455,8 @@
             padding-bottom: 0;
         }
 
-        .category-row:first-child {
+        .category-row:first-child,
+        .card-includes-note + .category-row {
             padding-top: 0;
         }
 
@@ -416,6 +508,14 @@
             opacity: 0.5;
         }
 
+        .category-note {
+            display: block;
+            font-size: var(--fs-small);
+            color: var(--text-secondary);
+            font-style: italic;
+            margin-top: 3px;
+        }
+
         /* ===========================================
            WEBSITE COMPARISON (SLIDE 2)
            Asymmetric layout
@@ -449,7 +549,7 @@
             background: rgba(47,93,98,0.07);
             padding: 4px 10px;
             border-radius: 4px;
-            margin-top: 8px;
+            margin-top: 10px;
         }
 
         .included-callout svg {
@@ -466,7 +566,7 @@
             background: rgba(176,122,42,0.08);
             padding: 4px 10px;
             border-radius: 4px;
-            margin-top: 8px;
+            margin-top: 10px;
         }
 
         .upgrade-callout-inline svg {
@@ -490,41 +590,24 @@
             line-height: 1.5;
         }
 
-        .badge-recommended {
-            display: inline-block;
-            font-size: 0.625rem;
-            font-weight: 600;
-            color: var(--card-bg);
-            background: var(--accent-1);
-            padding: 1px 7px;
-            border-radius: 3px;
-            letter-spacing: 0.03em;
-            text-transform: uppercase;
-        }
-
-        /* Upgrade bridge */
-        .upgrade-bridge {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 10px;
-            padding: 10px 0;
-            color: var(--accent-1);
-            font-size: var(--fs-body);
-            font-weight: 700;
-        }
-
-        .upgrade-bridge svg {
-            flex-shrink: 0;
-        }
-
+        /* ===========================================
+           GROWTH ADVANTAGES
+           =========================================== */
         .growth-advantages-label {
             font-size: var(--fs-small);
             font-weight: 700;
             text-transform: uppercase;
             letter-spacing: 0.04em;
             color: var(--accent-1);
-            margin-bottom: 8px;
+            margin-top: 18px;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .growth-advantages-label svg {
+            flex-shrink: 0;
         }
 
         /* Benefit tiles */
@@ -565,6 +648,7 @@
             color: var(--text-secondary);
             font-weight: 400;
             line-height: 1.45;
+            padding-left: 24px;
         }
 
         /* Shared features — single column */
@@ -574,6 +658,7 @@
             border-radius: var(--card-radius);
             padding: 14px 18px;
             box-shadow: var(--card-shadow);
+            margin-top: 12px;
         }
 
         .shared-features-title {
@@ -690,7 +775,7 @@
             color: var(--accent-2);
             text-transform: uppercase;
             letter-spacing: 0.04em;
-            margin-bottom: 10px;
+            margin-bottom: 12px;
             display: flex;
             align-items: center;
             gap: 8px;
@@ -701,7 +786,7 @@
             counter-reset: steps;
             display: flex;
             flex-direction: column;
-            gap: 8px;
+            gap: 12px;
         }
 
         .steps-list li {
@@ -709,18 +794,23 @@
             font-size: var(--fs-body);
             font-weight: 450;
             color: var(--text-primary);
-            padding-left: 32px;
+            padding-left: 34px;
             position: relative;
             line-height: 1.55;
+            min-height: 24px;
+            display: flex;
+            align-items: center;
+            flex-wrap: wrap;
         }
 
         .steps-list li::before {
             content: counter(steps);
             position: absolute;
             left: 0;
-            top: 0;
-            width: 22px;
-            height: 22px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 24px;
+            height: 24px;
             background: var(--accent-2);
             color: #fff;
             font-size: 0.6875rem;
@@ -732,6 +822,21 @@
             line-height: 1;
         }
 
+        /* Step with CTA: text wraps, button on own line */
+        .steps-list .step-with-cta {
+            flex-direction: column;
+            align-items: flex-start;
+        }
+
+        .steps-list .step-with-cta::before {
+            top: 0;
+            transform: translateY(0);
+        }
+
+        .step-text {
+            line-height: 24px;
+        }
+
         .email-cta {
             display: inline-flex;
             align-items: center;
@@ -741,9 +846,10 @@
             font-weight: 600;
             font-size: var(--fs-body);
             text-decoration: none;
-            padding: 6px 16px;
+            padding: 8px 20px;
             border-radius: 5px;
             min-height: 44px;
+            margin-top: 6px;
             transition: background 0.15s ease;
         }
 
@@ -760,6 +866,16 @@
                 animation-iteration-count: 1 !important;
                 transition-duration: 0.01ms !important;
             }
+
+            html {
+                scroll-snap-type: none;
+                scroll-behavior: auto;
+            }
+
+            .fade-in, .cover-fade, .cover-rule {
+                opacity: 1 !important;
+                transform: none !important;
+            }
         }
 
         /* ===========================================
@@ -774,6 +890,13 @@
 
             html {
                 font-size: 14px;
+                scroll-snap-type: none;
+            }
+
+            .fade-in, .cover-fade, .cover-rule {
+                opacity: 1 !important;
+                transform: none !important;
+                transition: none !important;
             }
 
             body {
@@ -830,8 +953,27 @@
                 padding-bottom: 8px;
             }
 
+            .slide-header--light {
+                margin-bottom: 8px;
+                padding-bottom: 6px;
+            }
+
             .section-heading {
                 margin-bottom: 5px;
+            }
+
+            .gold-divider {
+                margin-top: 6px;
+                margin-bottom: 2px;
+            }
+
+            .shared-features {
+                margin-top: 6px;
+            }
+
+            .growth-advantages-label {
+                margin-top: 8px;
+                margin-bottom: 4px;
             }
 
             .comparison-grid,
@@ -862,7 +1004,18 @@
             }
 
             .steps-list {
-                gap: 3px;
+                gap: 4px;
+            }
+
+            .steps-list li {
+                min-height: 18px;
+                padding-left: 28px;
+            }
+
+            .steps-list li::before {
+                width: 18px;
+                height: 18px;
+                font-size: 0.6rem;
             }
 
             .check-list {
@@ -877,6 +1030,10 @@
                 padding: 8px 10px;
             }
 
+            .benefit-tile-desc {
+                padding-left: 20px;
+            }
+
             .platform-list {
                 gap: 2px 14px;
             }
@@ -884,10 +1041,12 @@
             .email-cta {
                 min-height: auto;
                 padding: 3px 10px;
+                margin-top: 3px;
             }
 
             .cover-slide {
-                padding-top: 1.5in;
+                min-height: 100%;
+                display: flex;
             }
         }
 
@@ -935,6 +1094,10 @@
                 gap: 2px;
                 text-align: center;
             }
+
+            .cover-slide .slide-footer {
+                flex-direction: column;
+            }
         }
 
         /* ===========================================
@@ -960,6 +1123,11 @@
             .cover-author {
                 margin-top: 24px;
             }
+
+            .included-callout,
+            .upgrade-callout-inline {
+                white-space: normal;
+            }
         }
     </style>
 </head>
@@ -975,7 +1143,7 @@
         <div class="cover-content">
 
             <!-- Decorative accent -->
-            <div class="cover-accent">
+            <div class="cover-accent cover-fade">
                 <span class="cover-accent-line"></span>
                 <svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="#B07A2A" stroke-width="1" stroke-linecap="round" stroke-linejoin="round">
                     <polygon points="10,1 12.5,7.5 19,7.5 13.75,11.5 15.5,18 10,14 4.5,18 6.25,11.5 1,7.5 7.5,7.5"/>
@@ -983,13 +1151,13 @@
                 <span class="cover-accent-line"></span>
             </div>
 
-            <div class="cover-company">Brunken Consulting, LLC</div>
+            <div class="cover-company cover-fade cover-fade-delay-1">Brunken Consulting, LLC</div>
 
-            <div class="cover-rule"></div>
+            <div class="cover-rule cover-fade cover-fade-delay-2"></div>
 
-            <div class="cover-subtitle">Proposal</div>
+            <div class="cover-subtitle cover-fade cover-fade-delay-3">Proposal</div>
 
-            <div class="cover-author">Prepared by <strong>Camila Ruiz</strong></div>
+            <div class="cover-author cover-fade cover-fade-delay-4">Prepared by <strong>Camila Ruiz</strong></div>
 
         </div>
 
@@ -1014,7 +1182,7 @@
         <div class="slide-body">
 
             <!-- Executive Overview -->
-            <div>
+            <div class="fade-in">
                 <h2 class="section-heading">
                     <svg width="18" height="18" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"><circle cx="8" cy="8" r="6.5"/><path d="M8 4.5v3.5l2.5 1.5"/></svg>
                     Executive Overview
@@ -1026,11 +1194,11 @@
                     <li>Create alignment across all communications touchpoints, from digital to in-person</li>
                     <li>Support sustainable growth with an intentional brand foundation and digital presence</li>
                 </ul>
-                <div class="gold-divider" style="margin-top:14px;"></div>
+                <div class="gold-divider"></div>
             </div>
 
             <!-- Visual Identity Package Comparison -->
-            <div>
+            <div class="fade-in fade-in-delay-1">
                 <h2 class="section-heading">
                     <svg width="18" height="18" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="12" height="12" rx="2"/><path d="M2 10l3.5-3.5L8 9l3-3 3 3"/></svg>
                     Visual Identity Packages
@@ -1074,7 +1242,7 @@
                                         <span class="material-item">PowerPoint template (2&ndash;3 slides)</span>
                                         <span class="material-item">Business card</span>
                                         <span class="material-item">Homepage mockup</span>
-                                        1&ndash;2 rounds of revisions
+                                        <span class="category-note">1&ndash;2 rounds of revisions</span>
                                     </div>
                                 </div>
                             </div>
@@ -1172,10 +1340,15 @@
          ============================================================ -->
     <section class="slide" id="slide-2">
 
+        <header class="slide-header slide-header--light">
+            <div class="header-company">Brunken Consulting, LLC</div>
+            <div class="header-subtitle">Proposal</div>
+        </header>
+
         <div class="slide-body">
 
             <!-- Website Package Comparison -->
-            <div>
+            <div class="fade-in">
                 <h2 class="section-heading">
                     <svg width="18" height="18" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"><rect x="1.5" y="3" width="13" height="10" rx="1.5"/><path d="M1.5 6h13"/></svg>
                     Website Packages
@@ -1200,8 +1373,8 @@
                     </div>
                 </div>
 
-                <!-- Shared features — moved up to establish baseline -->
-                <div class="shared-features" style="margin-top:12px;">
+                <!-- Shared features -->
+                <div class="shared-features">
                     <div class="shared-features-title">Included in Both Website Packages</div>
                     <ul class="check-list">
                         <li>Basic SEO setup, meta tags, header keywords, and market research-based copy</li>
@@ -1212,7 +1385,10 @@
                 </div>
 
                 <!-- Growth package advantages -->
-                <div class="growth-advantages-label">Advantages of the Growth Package</div>
+                <div class="growth-advantages-label">
+                    <svg width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12V8M8 12V4M12 12V6"/></svg>
+                    Advantages of the Growth Package
+                </div>
                 <div class="benefit-tiles">
                     <div class="benefit-tile">
                         <div class="benefit-tile-header">
@@ -1241,7 +1417,7 @@
             <div class="gold-divider"></div>
 
             <!-- Platform Recommendation — consolidated -->
-            <div>
+            <div class="fade-in fade-in-delay-1">
                 <h2 class="section-heading">
                     <svg width="18" height="18" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"><path d="M3 13V3h10v10H3z"/><path d="M6 6h4M6 8.5h4M6 11h2.5"/></svg>
                     Platform Recommendation
@@ -1266,14 +1442,17 @@
             </div>
 
             <!-- Next Steps -->
-            <div class="next-steps">
+            <div class="next-steps fade-in fade-in-delay-2">
                 <h2 class="next-steps-title">
                     <svg width="18" height="18" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8h10M9 4l4 4-4 4"/></svg>
                     Next Steps
                 </h2>
                 <ol class="steps-list">
                     <li>Select your preferred package and any add-ons</li>
-                    <li>Schedule a launch strategy session with Camila: <a href="mailto:hello@camilaruiz.com" class="email-cta">hello@camilaruiz.com</a></li>
+                    <li class="step-with-cta">
+                        <span class="step-text">Schedule a launch strategy session with Camila:</span>
+                        <a href="mailto:hello@camilaruiz.com" class="email-cta">hello@camilaruiz.com</a>
+                    </li>
                     <li>Begin building your business foundation</li>
                 </ol>
             </div>
@@ -1288,6 +1467,30 @@
     </section>
 
 </div>
+
+<script>
+    // Intersection Observer for fade-in animations
+    (function() {
+        var targets = document.querySelectorAll('.fade-in, .cover-fade, .cover-rule');
+        if (!targets.length) return;
+
+        // Reduced motion check
+        if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+            targets.forEach(function(el) { el.classList.add('visible'); });
+            return;
+        }
+
+        var observer = new IntersectionObserver(function(entries) {
+            entries.forEach(function(entry) {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, { threshold: 0.15, rootMargin: '0px 0px -40px 0px' });
+
+        targets.forEach(function(el) { observer.observe(el); });
+    })();
+</script>
 
 </body>
 </html>
