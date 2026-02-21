@@ -1128,18 +1128,18 @@
                 --slide-pad-y: 28px;
                 --fs-cover-company: 1.75rem;
                 --fs-cover-subtitle: 1rem;
-                --fs-company: 1.35rem;
+                --fs-company: 1.25rem;
                 --fs-section: 1rem;
                 --fs-card-title: 1rem;
-                --fs-card-price: 1.2rem;
-                --fs-body: 1rem;
-                --fs-overview: 1rem;
-                --fs-small: 0.9rem;
-                --fs-footer: 0.8rem;
+                --fs-card-price: 1.1rem;
+                --fs-body: 0.9375rem;
+                --fs-overview: 0.9375rem;
+                --fs-small: 0.875rem;
+                --fs-footer: 0.8125rem;
             }
 
             .slide {
-                min-height: auto;
+                min-height: 100vh;
                 padding: var(--slide-pad-y) var(--slide-pad-x);
             }
 
@@ -1581,8 +1581,11 @@
             this.createNavDots();
             this.setupIntersectionObserver();
             this.setupKeyboardNav();
-            this.setupWheelNav();
-            this.setupTouchNav();
+            // Only add wheel/touch nav on non-touch devices
+            // On touch devices, CSS scroll-snap handles everything
+            if (!('ontouchstart' in window)) {
+                this.setupWheelNav();
+            }
 
             // If reduced motion, make all reveals visible immediately
             if (this.reducedMotion) {
@@ -1678,24 +1681,6 @@
                 setTimeout(function() {
                     self.wheelLocked = false;
                 }, self.wheelDebounce);
-            }, { passive: true });
-        }
-
-        setupTouchNav() {
-            var self = this;
-            document.addEventListener('touchstart', function(e) {
-                self.touchStartY = e.touches[0].clientY;
-            }, { passive: true });
-
-            document.addEventListener('touchend', function(e) {
-                var deltaY = self.touchStartY - e.changedTouches[0].clientY;
-                if (Math.abs(deltaY) < self.touchThreshold) return;
-
-                if (deltaY > 0) {
-                    self.nextSlide();
-                } else {
-                    self.prevSlide();
-                }
             }, { passive: true });
         }
 
