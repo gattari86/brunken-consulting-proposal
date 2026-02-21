@@ -41,6 +41,12 @@
             --card-pad: 20px;
             --section-gap: 26px;
             --card-shadow: 0 1px 4px rgba(0,0,0,0.04);
+
+            /* Animation tokens */
+            --duration-micro: 0.3s;
+            --duration-normal: 0.6s;
+            --reveal-distance: 20px;
+            --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
         }
 
         /* ===========================================
@@ -66,6 +72,57 @@
             line-height: var(--lh);
             overflow-x: hidden;
             -webkit-font-smoothing: antialiased;
+        }
+
+        /* ===========================================
+           PROGRESS BAR
+           =========================================== */
+        .progress-bar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background: var(--accent-1);
+            transform-origin: left center;
+            transform: scaleX(0);
+            z-index: 1000;
+            pointer-events: none;
+            will-change: transform;
+        }
+
+        /* ===========================================
+           NAVIGATION DOTS
+           =========================================== */
+        .nav-dots {
+            position: fixed;
+            right: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            z-index: 999;
+        }
+
+        .nav-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: var(--border);
+            border: none;
+            padding: 0;
+            cursor: pointer;
+            transition: background var(--duration-micro), transform var(--duration-micro);
+        }
+
+        .nav-dot:hover {
+            background: var(--text-secondary);
+        }
+
+        .nav-dot.active {
+            background: var(--accent-1);
+            transform: scale(1.3);
         }
 
         /* ===========================================
@@ -97,42 +154,44 @@
         }
 
         /* ===========================================
-           MICRO-ANIMATIONS
-           Subtle fade-in on scroll
+           REVEAL ANIMATION SYSTEM
            =========================================== */
-        .fade-in {
+        .reveal {
             opacity: 0;
-            transform: translateY(12px);
-            transition: opacity 0.5s ease, transform 0.5s ease;
+            transform: translateY(var(--reveal-distance));
+            transition: opacity var(--duration-normal) var(--ease-out-expo),
+                        transform var(--duration-normal) var(--ease-out-expo);
         }
 
-        .fade-in.visible {
+        .slide.visible .reveal {
             opacity: 1;
             transform: translateY(0);
         }
 
-        /* Stagger children */
-        .fade-in-delay-1 { transition-delay: 0.08s; }
-        .fade-in-delay-2 { transition-delay: 0.16s; }
-        .fade-in-delay-3 { transition-delay: 0.24s; }
-        .fade-in-delay-4 { transition-delay: 0.32s; }
+        /* Stagger delays via nth-child */
+        .slide.visible .reveal:nth-child(2) { transition-delay: 0.1s; }
+        .slide.visible .reveal:nth-child(3) { transition-delay: 0.2s; }
+        .slide.visible .reveal:nth-child(4) { transition-delay: 0.3s; }
+        .slide.visible .reveal:nth-child(5) { transition-delay: 0.4s; }
+        .slide.visible .reveal:nth-child(6) { transition-delay: 0.5s; }
 
-        /* Cover-specific entrance */
-        .cover-fade {
+        /* Cover-specific reveal — slower, deeper */
+        .cover-reveal {
             opacity: 0;
-            transform: translateY(16px);
-            transition: opacity 0.7s ease, transform 0.7s ease;
+            transform: translateY(25px);
+            transition: opacity 0.7s var(--ease-out-expo),
+                        transform 0.7s var(--ease-out-expo);
         }
 
-        .cover-fade.visible {
+        .slide.visible .cover-reveal {
             opacity: 1;
             transform: translateY(0);
         }
 
-        .cover-fade-delay-1 { transition-delay: 0.15s; }
-        .cover-fade-delay-2 { transition-delay: 0.3s; }
-        .cover-fade-delay-3 { transition-delay: 0.45s; }
-        .cover-fade-delay-4 { transition-delay: 0.6s; }
+        .slide.visible .cover-reveal-delay-1 { transition-delay: 0.15s; }
+        .slide.visible .cover-reveal-delay-2 { transition-delay: 0.3s; }
+        .slide.visible .cover-reveal-delay-3 { transition-delay: 0.45s; }
+        .slide.visible .cover-reveal-delay-4 { transition-delay: 0.6s; }
 
         /* Card hover micro-interaction */
         .card,
@@ -158,7 +217,7 @@
             transition: transform 0.6s ease 0.25s;
         }
 
-        .cover-rule.visible {
+        .slide.visible .cover-rule {
             transform: scaleX(1);
         }
 
@@ -861,6 +920,11 @@
            ACCESSIBILITY — Reduced Motion
            =========================================== */
         @media (prefers-reduced-motion: reduce) {
+            :root {
+                --reveal-distance: 0;
+                --duration-normal: 0.01ms;
+            }
+
             * {
                 animation-duration: 0.01ms !important;
                 animation-iteration-count: 1 !important;
@@ -872,7 +936,7 @@
                 scroll-behavior: auto;
             }
 
-            .fade-in, .cover-fade, .cover-rule {
+            .reveal, .cover-reveal, .cover-rule {
                 opacity: 1 !important;
                 transform: none !important;
             }
@@ -893,7 +957,12 @@
                 scroll-snap-type: none;
             }
 
-            .fade-in, .cover-fade, .cover-rule {
+            .progress-bar,
+            .nav-dots {
+                display: none;
+            }
+
+            .reveal, .cover-reveal, .cover-rule {
                 opacity: 1 !important;
                 transform: none !important;
                 transition: none !important;
@@ -1101,6 +1170,20 @@
         }
 
         /* ===========================================
+           RESPONSIVE — iPad / 768px
+           =========================================== */
+        @media (max-width: 768px) {
+            :root {
+                --duration-normal: 0.35s;
+                --reveal-distance: 12px;
+            }
+
+            .nav-dots {
+                display: none;
+            }
+        }
+
+        /* ===========================================
            RESPONSIVE — Small Phone (under 480px)
            =========================================== */
         @media (max-width: 480px) {
@@ -1109,6 +1192,8 @@
                 --slide-pad-y: 20px;
                 --card-pad: 14px;
                 --fs-cover-company: 1.5rem;
+                --duration-normal: 0.3s;
+                --reveal-distance: 10px;
             }
 
             .card-meta {
@@ -1133,6 +1218,12 @@
 </head>
 <body>
 
+<!-- Progress bar -->
+<div class="progress-bar" aria-hidden="true"></div>
+
+<!-- Navigation dots -->
+<nav class="nav-dots" aria-label="Slide navigation"></nav>
+
 <div class="deck">
 
     <!-- ============================================================
@@ -1143,7 +1234,7 @@
         <div class="cover-content">
 
             <!-- Decorative accent -->
-            <div class="cover-accent cover-fade">
+            <div class="cover-accent cover-reveal">
                 <span class="cover-accent-line"></span>
                 <svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="#B07A2A" stroke-width="1" stroke-linecap="round" stroke-linejoin="round">
                     <polygon points="10,1 12.5,7.5 19,7.5 13.75,11.5 15.5,18 10,14 4.5,18 6.25,11.5 1,7.5 7.5,7.5"/>
@@ -1151,13 +1242,13 @@
                 <span class="cover-accent-line"></span>
             </div>
 
-            <div class="cover-company cover-fade cover-fade-delay-1">Brunken Consulting, LLC</div>
+            <div class="cover-company cover-reveal cover-reveal-delay-1">Brunken Consulting, LLC</div>
 
-            <div class="cover-rule cover-fade cover-fade-delay-2"></div>
+            <div class="cover-rule cover-reveal cover-reveal-delay-2"></div>
 
-            <div class="cover-subtitle cover-fade cover-fade-delay-3">Proposal</div>
+            <div class="cover-subtitle cover-reveal cover-reveal-delay-3">Proposal</div>
 
-            <div class="cover-author cover-fade cover-fade-delay-4">Prepared by <strong>Camila Ruiz</strong></div>
+            <div class="cover-author cover-reveal cover-reveal-delay-4">Prepared by <strong>Camila Ruiz</strong></div>
 
         </div>
 
@@ -1182,7 +1273,7 @@
         <div class="slide-body">
 
             <!-- Executive Overview -->
-            <div class="fade-in">
+            <div class="reveal">
                 <h2 class="section-heading">
                     <svg width="18" height="18" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"><circle cx="8" cy="8" r="6.5"/><path d="M8 4.5v3.5l2.5 1.5"/></svg>
                     Executive Overview
@@ -1198,7 +1289,7 @@
             </div>
 
             <!-- Visual Identity Package Comparison -->
-            <div class="fade-in fade-in-delay-1">
+            <div class="reveal">
                 <h2 class="section-heading">
                     <svg width="18" height="18" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="12" height="12" rx="2"/><path d="M2 10l3.5-3.5L8 9l3-3 3 3"/></svg>
                     Visual Identity Packages
@@ -1348,7 +1439,7 @@
         <div class="slide-body">
 
             <!-- Website Package Comparison -->
-            <div class="fade-in">
+            <div class="reveal">
                 <h2 class="section-heading">
                     <svg width="18" height="18" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"><rect x="1.5" y="3" width="13" height="10" rx="1.5"/><path d="M1.5 6h13"/></svg>
                     Website Packages
@@ -1417,7 +1508,7 @@
             <div class="gold-divider"></div>
 
             <!-- Platform Recommendation — consolidated -->
-            <div class="fade-in fade-in-delay-1">
+            <div class="reveal">
                 <h2 class="section-heading">
                     <svg width="18" height="18" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"><path d="M3 13V3h10v10H3z"/><path d="M6 6h4M6 8.5h4M6 11h2.5"/></svg>
                     Platform Recommendation
@@ -1442,7 +1533,7 @@
             </div>
 
             <!-- Next Steps -->
-            <div class="next-steps fade-in fade-in-delay-2">
+            <div class="next-steps reveal">
                 <h2 class="next-steps-title">
                     <svg width="18" height="18" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8h10M9 4l4 4-4 4"/></svg>
                     Next Steps
@@ -1469,27 +1560,183 @@
 </div>
 
 <script>
-    // Intersection Observer for fade-in animations
-    (function() {
-        var targets = document.querySelectorAll('.fade-in, .cover-fade, .cover-rule');
-        if (!targets.length) return;
+    class SlidePresentation {
+        constructor() {
+            this.slides = Array.from(document.querySelectorAll('.slide'));
+            this.totalSlides = this.slides.length;
+            this.currentSlide = 0;
+            this.progressBar = document.querySelector('.progress-bar');
+            this.navDotsContainer = document.querySelector('.nav-dots');
+            this.dots = [];
+            this.wheelLocked = false;
+            this.wheelDebounce = 800;
+            this.touchStartY = 0;
+            this.touchThreshold = 50;
+            this.reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-        // Reduced motion check
-        if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-            targets.forEach(function(el) { el.classList.add('visible'); });
-            return;
+            this.init();
         }
 
-        var observer = new IntersectionObserver(function(entries) {
-            entries.forEach(function(entry) {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add('visible');
+        init() {
+            this.createNavDots();
+            this.setupIntersectionObserver();
+            this.setupKeyboardNav();
+            this.setupWheelNav();
+            this.setupTouchNav();
+
+            // If reduced motion, make all reveals visible immediately
+            if (this.reducedMotion) {
+                this.slides.forEach(function(slide) {
+                    slide.classList.add('visible');
+                });
+            }
+
+            // Set initial state
+            this.updateProgressBar();
+            this.updateNavDots();
+        }
+
+        createNavDots() {
+            var self = this;
+            for (var i = 0; i < this.totalSlides; i++) {
+                var dot = document.createElement('button');
+                dot.className = 'nav-dot';
+                dot.setAttribute('aria-label', 'Go to slide ' + (i + 1));
+                dot.dataset.index = i;
+                dot.addEventListener('click', function() {
+                    self.goToSlide(parseInt(this.dataset.index));
+                });
+                this.navDotsContainer.appendChild(dot);
+                this.dots.push(dot);
+            }
+        }
+
+        setupIntersectionObserver() {
+            var self = this;
+
+            // Observer for determining current slide (progress + dots)
+            var currentObserver = new IntersectionObserver(function(entries) {
+                entries.forEach(function(entry) {
+                    if (entry.isIntersecting) {
+                        var index = self.slides.indexOf(entry.target);
+                        if (index !== -1) {
+                            self.currentSlide = index;
+                            self.updateProgressBar();
+                            self.updateNavDots();
+                        }
+                    }
+                });
+            }, { threshold: 0.3 });
+
+            // Observer for reveal animations
+            var revealObserver = new IntersectionObserver(function(entries) {
+                entries.forEach(function(entry) {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('visible');
+                    }
+                });
+            }, { threshold: 0.15, rootMargin: '0px 0px -40px 0px' });
+
+            this.slides.forEach(function(slide) {
+                currentObserver.observe(slide);
+                revealObserver.observe(slide);
+            });
+        }
+
+        setupKeyboardNav() {
+            var self = this;
+            document.addEventListener('keydown', function(e) {
+                switch (e.key) {
+                    case 'ArrowDown':
+                    case 'ArrowRight':
+                    case ' ':
+                        e.preventDefault();
+                        self.nextSlide();
+                        break;
+                    case 'ArrowUp':
+                    case 'ArrowLeft':
+                        e.preventDefault();
+                        self.prevSlide();
+                        break;
                 }
             });
-        }, { threshold: 0.15, rootMargin: '0px 0px -40px 0px' });
+        }
 
-        targets.forEach(function(el) { observer.observe(el); });
-    })();
+        setupWheelNav() {
+            var self = this;
+            document.addEventListener('wheel', function(e) {
+                if (self.wheelLocked) return;
+                if (Math.abs(e.deltaY) < 50) return;
+
+                self.wheelLocked = true;
+                if (e.deltaY > 0) {
+                    self.nextSlide();
+                } else {
+                    self.prevSlide();
+                }
+
+                setTimeout(function() {
+                    self.wheelLocked = false;
+                }, self.wheelDebounce);
+            }, { passive: true });
+        }
+
+        setupTouchNav() {
+            var self = this;
+            document.addEventListener('touchstart', function(e) {
+                self.touchStartY = e.touches[0].clientY;
+            }, { passive: true });
+
+            document.addEventListener('touchend', function(e) {
+                var deltaY = self.touchStartY - e.changedTouches[0].clientY;
+                if (Math.abs(deltaY) < self.touchThreshold) return;
+
+                if (deltaY > 0) {
+                    self.nextSlide();
+                } else {
+                    self.prevSlide();
+                }
+            }, { passive: true });
+        }
+
+        nextSlide() {
+            if (this.currentSlide < this.totalSlides - 1) {
+                this.goToSlide(this.currentSlide + 1);
+            }
+        }
+
+        prevSlide() {
+            if (this.currentSlide > 0) {
+                this.goToSlide(this.currentSlide - 1);
+            }
+        }
+
+        goToSlide(index) {
+            if (index < 0 || index >= this.totalSlides) return;
+            this.slides[index].scrollIntoView({ behavior: 'smooth' });
+        }
+
+        updateProgressBar() {
+            var fraction = this.totalSlides > 1
+                ? this.currentSlide / (this.totalSlides - 1)
+                : 0;
+            this.progressBar.style.transform = 'scaleX(' + fraction + ')';
+        }
+
+        updateNavDots() {
+            var self = this;
+            this.dots.forEach(function(dot, i) {
+                if (i === self.currentSlide) {
+                    dot.classList.add('active');
+                } else {
+                    dot.classList.remove('active');
+                }
+            });
+        }
+    }
+
+    // Initialize
+    new SlidePresentation();
 </script>
 
 </body>
