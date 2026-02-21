@@ -881,35 +881,25 @@
             line-height: 1;
         }
 
-        /* Step with CTA: text wraps, button on own line */
-        .steps-list .step-with-cta {
-            flex-direction: column;
-            align-items: flex-start;
-        }
-
-        .steps-list .step-with-cta::before {
-            top: 0;
-            transform: translateY(0);
-        }
-
-        .step-text {
-            line-height: 24px;
+        /* CTA block — standalone below steps list */
+        .cta-block {
+            margin-top: 16px;
+            text-align: center;
         }
 
         .email-cta {
             display: inline-flex;
             align-items: center;
-            gap: 6px;
+            gap: 8px;
             background: var(--accent-2);
             color: #fff;
             font-weight: 600;
             font-size: var(--fs-body);
             text-decoration: none;
-            padding: 8px 20px;
-            border-radius: 5px;
+            padding: 10px 28px;
+            border-radius: 6px;
             min-height: 44px;
-            margin-top: 6px;
-            transition: background 0.15s ease;
+            transition: background 0.15s ease, box-shadow 0.15s ease;
         }
 
         .email-cta:hover {
@@ -1540,12 +1530,15 @@
                 </h2>
                 <ol class="steps-list">
                     <li>Select your preferred package and any add-ons</li>
-                    <li class="step-with-cta">
-                        <span class="step-text">Schedule a launch strategy session with Camila:</span>
-                        <a href="mailto:hello@camilaruiz.com" class="email-cta">hello@camilaruiz.com</a>
-                    </li>
+                    <li>Schedule a launch strategy session with Camila</li>
                     <li>Begin building your business foundation</li>
                 </ol>
+                <div class="cta-block">
+                    <a href="mailto:hello@camilaruiz.com" class="email-cta">
+                        <svg width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="1.5" y="3.5" width="13" height="9" rx="1.5"/><path d="M1.5 3.5L8 9l6.5-5.5"/></svg>
+                        hello@camilaruiz.com
+                    </a>
+                </div>
             </div>
 
         </div>
